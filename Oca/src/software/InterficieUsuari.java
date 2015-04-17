@@ -41,7 +41,7 @@ public class InterficieUsuari {
                 String autor = llegirText("\nColor de fitxa:\n");
                 //Array llibre = new Book();
 
-                controlador. = nom;
+                //controlador. = nom;
                 llibre.author = autor;
                 llibre.isbn = isbn;
 

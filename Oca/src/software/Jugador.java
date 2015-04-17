@@ -21,10 +21,4 @@ public class Jugador {
     }
     
     
-    /*public String getNom(){
-        return 0;
-    }*/
-    
-    
-    
 }

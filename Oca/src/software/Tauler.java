@@ -13,4 +13,12 @@ import java.util.List;
  */
 public class Tauler {
     private Casella casella[];
+
+    public Tauler() {
+        
+        // Casella(...) necessita los parametres Int(=numero),String(=descripcio)
+        // pero no sabem què posar per a què no hi hagi error.
+        this.casella = new Casella();
+    }
+    
 }

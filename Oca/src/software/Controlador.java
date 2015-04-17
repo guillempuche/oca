@@ -16,11 +16,16 @@ public class Controlador {
     private Map<Integer,Jugador> jugadores;
 
     public Controlador(InterficieUsuari iu) {
-        this.iu = iu;
+        this.iu = iu;]
+        
+        // Dau(...) necessita los parametres Int(=valor)
+        // pero no sabem què posar per a què no hi hagi error.
         this.dau = new Dau();
-        this.tauler = Tauler();
+        this.tauler = new Tauler();
+        
+        // Jugador(...) no es pot convertir a Map<Integer,Jugador>
+        // pero si "jugador" ja és Map, no ho entenem.
         this.jugadores = new Jugador();
-        // crear news dels atributs
     }
     
     public int afegeixJugador(String nom, String color){
