@@ -39,9 +39,9 @@ public class InterficieUsuari {
               } else if ("alta".equalsIgnoreCase(comanda[0])) {
                 String nom = llegirText("Nom del jugador:\n");
                 String autor = llegirText("\nColor de fitxa:\n");
-                Array llibre = new Book();
+                //Array llibre = new Book();
 
-                llibre.name = nom;
+                controlador. = nom;
                 llibre.author = autor;
                 llibre.isbn = isbn;
 

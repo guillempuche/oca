@@ -5,13 +5,26 @@
  */
 package software;
 
-/**
- *
- * @author E6510
- */
+import java.lang;
+
 public class Jugador {
     private String nom;
     private Dau dau;
     private Fitxa fitxa;
     private Tauler tauler;
+
+    public jugador(lang.String nom, Dau dau, Fitxa fitxa, Tauler tauler) {
+        this.nom = nom;
+        this.dau = dau;
+        this.fitxa = fitxa;
+        this.tauler = tauler;
+    }
+    
+    
+    /*public String getNom(){
+        return 0;
+    }*/
+    
+    
+    
 }

@@ -6,14 +6,24 @@
 package software;
 
 import java.util.Map;
+import java.lang;
+import java.util.TreeMap;
 
-/**
- *
- * @author E6510
- */
 public class Controlador {
-    private InterficieUsuari usuari;
+    private InterficieUsuari iu;
     private Dau dau;
     private Tauler tauler;
-    private Map<Integer,Jugador> jugadors;
+    private Map<Integer,Jugador> jugadores;
+
+    public Controlador(InterficieUsuari iu) {
+        this.iu = iu;
+        this.dau = new Dau();
+        this.tauler = Tauler();
+        this.jugadores = new Jugador();
+        // crear news dels atributs
+    }
+    
+    public int afegeixJugador(String nom, String color){
+        // crear objecto jugador;
+    }
 }
