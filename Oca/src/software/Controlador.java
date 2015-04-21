@@ -6,29 +6,28 @@
 package software;
 
 import java.util.Map;
-import java.lang;
 import java.util.TreeMap;
 
 public class Controlador {
     private InterficieUsuari iu;
     private Dau dau;
     private Tauler tauler;
-    private Map<Integer,Jugador> jugadores;
-
+    private Map<String,Jugador> jugadores;
+    
     public Controlador(InterficieUsuari iu) {
-        this.iu = iu;]
-        
-        // Dau(...) necessita los parametres Int(=valor)
-        // pero no sabem què posar per a què no hi hagi error.
-        this.dau = new Dau();
+        this.iu = iu;
+        this.dau = new Dau(dau.getValor());
         this.tauler = new Tauler();
-        
-        // Jugador(...) no es pot convertir a Map<Integer,Jugador>
-        // pero si "jugador" ja és Map, no ho entenem.
-        this.jugadores = new Jugador();
+        TreeMap<String, Jugador> jugadores = new  TreeMap();
+       
     }
     
     public int afegeixJugador(String nom, String color){
-        // crear objecto jugador;
+        if (jugadores.containsKey(color))  
+            return -1;
+        else {
+            jugadores.put(color, new Jugador(nom, dau, jugadores.get(color).getFitxa(), tauler));   
+            return 0;
+        }
     }
 }

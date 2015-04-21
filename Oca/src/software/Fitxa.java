@@ -5,21 +5,25 @@
  */
 package software;
 
-import java.lang;
-/**
- *
- * @author E6510
- */
 public class Fitxa {
     private String color;
     private Jugador jugador;
     private Casella casella;
 
-    public Fitxa(lang.String color, Jugador jugador, Casella casella) {
+    public Fitxa(String color, Jugador jugador, Casella casella) {
         this.color = color;
         this.jugador = jugador;
         this.casella = casella;
     }
    
+    public String getColor(){
+        return color;
+    }
+    public Jugador getJugador(){
+        return jugador;
+    }
+    public Casella getCasella(){
+        return casella;
+    }
     
 }

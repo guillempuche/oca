@@ -5,24 +5,15 @@
  */
 package software;
 
-import java.lang;
-
-/**
- *
- * @author E6510
- */
 public class Casella {
     private int numero;
     private String descripcio;
     private Fitxa fitxa;
 
-    public Casella(int numero, lang.String descripcio) {
+    public Casella(int numero, String descripcio) {
         this.numero = numero;
         this.descripcio = descripcio;
-        
-        // Fitxa(...) necessita los parametres String(=color),Jugador,Casella
-        // pero no sabem què posar per a què no hi hagi error.
-        this.fitxa = new Fitxa();
+        this.fitxa = new Fitxa(fitxa.getColor(), fitxa.getJugador(), fitxa.getCasella());
     }
     
     

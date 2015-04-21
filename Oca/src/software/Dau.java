@@ -5,12 +5,6 @@
  */
 package software;
 
-import java.lang;
-
-/**
- *
- * @author E6510
- */
 public class Dau {
     private int valor;
 
@@ -18,6 +12,9 @@ public class Dau {
         this.valor = 1;
     }
     
+    public int getValor(){
+        return(valor);
+    }
     // escollir numero aleatori
     public void tirar(){
         long a = 0;
@@ -28,10 +25,5 @@ public class Dau {
         }
         
         valor = (int) a;
-    }
-    
-    //El valor se asigna en el matodo tirar(), no necesitamos getVAlor para nada!!
-    public int getValor(){
-        return 0;
     }
 }
