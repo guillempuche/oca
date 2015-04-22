@@ -19,20 +19,42 @@ public class Jugador {
         this.tauler = tauler;
     }
     public String getNom(){
-        return nom;
+        return this.nom;
     }
     
     public Dau getDau(){
-        return dau;
+        return this.dau;
     }
     
     public Fitxa getFitxa(){
-        return fitxa;
+        return this.fitxa;
     }
-    
-    public Tauler getTauler(){
-        return tauler;
+    public int numeroCasellaFitxaJugador(){
+    Casella a;
+      a= this.fitxa.getCasella();
+      return a.getNumero();
     }
-    
-    
-}
+    public int tiraDau(){
+        dau.tirar();
+        return dau.getValor();
+    }
+    public void mouFitxa(int numCasellaDesti){
+        this.tauler.situaFitxa(this.fitxa, numCasellaDesti);
+    }
+    public boolean jugarTorn(){
+        int numCasella, numCasellaDesti;
+        if (fitxa.getCasella().getNumero() + dau.getValor() > 63){
+            numCasella= 63-fitxa.getCasella().getNumero();
+            numCasella= dau.getValor() - numCasella;
+            numCasellaDesti= 63 - numCasella;
+        } else
+            numCasellaDesti=fitxa.getCasella().getNumero() + dau.getValor();
+        
+        this.mouFitxa(numCasellaDesti);
+ 
+        if (numCasellaDesti==63)
+            return true;
+        else
+            return false;
+    }
+ }

@@ -22,7 +22,7 @@ public class InterficieUsuari {
         InterficieUsuari programa = new InterficieUsuari();
         programa.start();
     }
-
+/*
     public void start() {
         boolean executar = true;
         int comprovadorJugador;
@@ -39,8 +39,8 @@ public class InterficieUsuari {
                     } else if ("alta".equalsIgnoreCase(comanda[0])) {
                         String nom = llegirText("Nom del jugador:\n");
                         String color = llegirText("Color de fitxa:\n");
-                        comprovadorJugador =  controlador.afegeixJugador(nom, color);
-                        System.out.println("Alta finalitzada.");
+                        controlador.afegeixJugador(nom, color);
+                        System.out.println("Jugador afegit correctament");
 
                     } else if ("elimina".equalsIgnoreCase(comanda[0])) {
                          String color = llegirText("\nColor de fitxa:\n");
@@ -74,6 +74,7 @@ public class InterficieUsuari {
                 + "ajuda - Mostra novament les comandes vàlides per a l'aplicació\n"
                 + "surt - Surt del joc de la oca";
     }
+    */
 
     /**
      * Llegeix una línia de text des del teclat, garantint que no s'escriu una

@@ -15,15 +15,18 @@ public class Fitxa {
         this.jugador = jugador;
         this.casella = casella;
     }
-   
-    public String getColor(){
-        return color;
-    }
-    public Jugador getJugador(){
-        return jugador;
+    public void setCasella(Casella casella){
+        this.casella = casella;
     }
     public Casella getCasella(){
-        return casella;
+        return this.casella;
     }
+    public String getColor(){
+        return this.color;
+    }
+    public Jugador getJugador(){
+        return this.jugador;
+    }
+    
     
 }

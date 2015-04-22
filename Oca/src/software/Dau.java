@@ -9,11 +9,11 @@ public class Dau {
     private int valor;
 
     public Dau(int valor) {
-        this.valor = 1;
+        this.valor = valor;
     }
     
     public int getValor(){
-        return(valor);
+        return this.valor;
     }
     // escollir numero aleatori
     public void tirar(){
@@ -24,6 +24,6 @@ public class Dau {
             a %= 6;  
         }
         
-        valor = (int) a;
+        this.valor = (int) a;
     }
 }

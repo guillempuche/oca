@@ -5,20 +5,29 @@
  */
 package software;
 
-import java.util.List;
 
 /**
  *
  * @author E6510
  */
 public class Tauler {
-    private Casella casella[];
+    private Casella caselles[];
 
     public Tauler() {
-        
-        // Casella(...) necessita los parametres Int(=numero),String(=descripcio)
-        // pero no sabem què posar per a què no hi hagi error.
-        this.casella = new Casella();
+        for (int i=1; i<=63; i++)
+            this.caselles[i] = new Casella(i,"casella convencional");
     }
-    
+    public Casella getCasella(int numero){
+        return caselles[numero];
+    }
+    public void situaFitxa(Fitxa fitxa, int numero){
+        Casella a;
+        a = getCasella (numero);
+        a.situaFitxa (fitxa);
+    }
+    public void eliminaFitxa(Fitxa fitxa, int numero){
+        Casella a;
+        a = getCasella (numero);
+        a.eliminaFitxa (fitxa);
+    }
 }
