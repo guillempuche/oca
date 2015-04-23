@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package software;
 
 
@@ -12,43 +7,45 @@ public class Jugador {
     private Fitxa fitxa;
     private Tauler tauler;
 
-    public Jugador(String nom, Dau dau, Fitxa fitxa, Tauler tauler) {
+    public Jugador(String nom, String color, Dau dau, Tauler tauler) {
         this.nom = nom;
+        this.fitxa = new Fitxa(color, this, tauler.getCasella(1));
         this.dau = dau;
-        this.fitxa = fitxa;
         this.tauler = tauler;
     }
     public String getNom(){
         return this.nom;
     }
-    
     public Dau getDau(){
         return this.dau;
     }
-    
     public Fitxa getFitxa(){
         return this.fitxa;
     }
     public int numeroCasellaFitxaJugador(){
-    Casella a;
-      a= this.fitxa.getCasella();
-      return a.getNumero();
+        return this.fitxa.getCasella().getNumero();
     }
     public int tiraDau(){
         dau.tirar();
         return dau.getValor();
     }
     public void mouFitxa(int numCasellaDesti){
+        int numCasellaOrigen = this.fitxa.getCasella().getNumero();
+        
         this.tauler.situaFitxa(this.fitxa, numCasellaDesti);
+        this.fitxa.setCasella(this.tauler.getCasella(numCasellaDesti));
+        this.tauler.eliminaFitxa(this.fitxa, numCasellaOrigen);
+        
     }
     public boolean jugarTorn(){
         int numCasella, numCasellaDesti;
-        if (fitxa.getCasella().getNumero() + dau.getValor() > 63){
-            numCasella= 63-fitxa.getCasella().getNumero();
-            numCasella= dau.getValor() - numCasella;
-            numCasellaDesti= 63 - numCasella;
+        
+        if ((this.fitxa.getCasella().getNumero() + dau.getValor()) > 63){
+            numCasella = 63-fitxa.getCasella().getNumero();
+            numCasella = dau.getValor() - numCasella;
+            numCasellaDesti = 63 - numCasella;
         } else
-            numCasellaDesti=fitxa.getCasella().getNumero() + dau.getValor();
+            numCasellaDesti = fitxa.getCasella().getNumero() + dau.getValor();
         
         this.mouFitxa(numCasellaDesti);
  

@@ -1,82 +1,107 @@
 package software;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 
 public class Controlador {
-    //private InterficieUsuari iu;
+    private InterficieUsuari iu;
     private Dau dau;
     private Tauler tauler;
     private Map<String,Jugador> jugadores;
     private int torn;
+    private Scanner lector = new Scanner(System.in);
     
-    public Controlador(){//InterficieUsuari iu) {
-        //this.iu = iu;
-        this.dau = new Dau(1); //this.dau.getValor());
+    public Controlador(InterficieUsuari iu) {
+        this.iu = iu;
+        this.dau = new Dau();
         this.tauler = new Tauler();
-        TreeMap<String, Jugador> jugadores = new  TreeMap();
+        this.jugadores = new TreeMap<String, Jugador>();
         this.torn = 0;
     }
 
-    public static void main(String args[]){
-        String nom = "dan", color = "verd";
-        Controlador control = new Controlador();
-        System.out.println("El valor es: " +control.afegeixJugador(nom, color));
-
-    }
-    
-    public int afegeixJugador(String nom, String color){
-        int numCasellaInici = 1;
-        
-        if (this.jugadores.containsKey(color))  
+    public int afegeixJugador(String nom, String color){        
+        if (this.jugadores.containsKey(color) == true) 
             return -1;
         else {
-            this.jugadores.put(color, new Jugador(nom, dau, jugadores.get(color).getFitxa(), tauler));
-            this.jugadores.get(color).mouFitxa(numCasellaInici);
+            this.jugadores.put(color, new Jugador(nom, color, this.dau, this.tauler));
             return 0;
         }
         
     }
     
+    // Si no hi ha cap jugador amb el color rebut, llavors retorna -1, i sino 0
     public int eliminaJugador(String color){
-        if (this.jugadores.remove(color)==null) 
-            return -1;
-        else              
+        if (this.jugadores.containsKey(color) == true){
+            this.jugadores.remove(color);
             return 0;
+        } else
+            return -1;
     }
+    
     public int jugarPartida(){
         int numCasillaDesti;
         boolean finalPartida = false;
         
+        // Comprovacio si hi ha 2 o menys jugadors
         if (this.jugadores.size() <= 2)
                 return -1;
-        
-        while (finalPartida == false){
-            this.torn++;
+        else
+        {
+            // Comprovacio s'ha inicialitzat partida
+            while (finalPartida == false){
+                this.torn++;
 
-            Set keySetJugador = this.jugadores.keySet();
-            Iterator<Set> it = keySetJugador.iterator();
-            while(it.hasNext()){
-                Set color = it.next();
-                System.out.println("Torn número " + torn + ":\n\n" +
-                    "Juga al seu torn " + this.jugadores.get(color).getNom() +
-                    "\nControla la fitxa de color " + color + 
-                    "\nSituada a la casella" + this.jugadores.get(color).getFitxa().getCasella().getNumero() +
-                    "(Casella convencional)");
-                
-                this.jugadores.get(color).getDau().tirar();
-                System.out.println("Valor del dau " + this.jugadores.get(color).getDau().getValor()+ "\n");
+                Set<String> keySetColor = new HashSet<String>();
+                keySetColor = this.jugadores.keySet();
 
-                numCasillaDesti=this.jugadores.get(color).getDau().getValor()+
-                        this.jugadores.get(color).getFitxa().getCasella().getNumero();
-                System.out.println("Casella destí " + numCasillaDesti );
-                
-                finalPartida = this.jugadores.get(color).jugarTorn();
-            }            
+                Iterator<String> it = keySetColor.iterator();
+                while(it.hasNext() && finalPartida == false){
+                    String color = it.next();
+
+                    //Clicar ENTER per passar torn a l'altre jugador
+                    String text = llegirText("\n      -----------TIRAR DAU " + 
+                            this.jugadores.get(color).getNom() 
+                            + "-----------");
+                    String[] comanda = text.split(" ");
+                    if ("\n".equalsIgnoreCase(comanda[0])){
+                        System.out.println("");           
+                    }
+                    // lectura finalitzada d'ENTER
+
+                    System.out.println("Torn número " + this.torn + ":\n\n" +
+                        "Juga el seu torn " + this.jugadores.get(color).getNom() +
+                        "\nControla la fitxa de color " + color + 
+                        "\nSituada a la casella " + this.jugadores.get(color).getFitxa().getCasella().getNumero() +
+                        " (Casella convencional)");
+
+                    this.jugadores.get(color).getDau().tirar();
+                    System.out.println("Valor del dau: " + this.jugadores.get(color).getDau().getValor());
+
+                    //Comprovar si s'ha arribat a la casella 63                 
+                    finalPartida = this.jugadores.get(color).jugarTorn();
+                    System.out.println("Casella destí " 
+                            + this.jugadores.get(color).getFitxa().getCasella().getNumero() +
+                            " (Casella convencional)");
+                }
+            }
+            //Sentencia quan GUANYA JUGADOR
+            System.out.println("\n\nHa guanyat la partida!!!!");
+            
+            return 0;
         }
-        System.out.println("Ha guanyat la partida!!!!");
-        return 0;
+    }
+    
+    private String llegirText(String msg) {
+        String text = null;
+        while (text == null) {
+            System.out.print(msg);
+            text = lector.nextLine();
+            text = text.trim();
+        }
+        return text;
     }
 }

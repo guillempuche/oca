@@ -1,20 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package software;
 
-public class Dau {
+public class Dau{
     private int valor;
 
-    public Dau(int valor) {
-        this.valor = valor;
+    public Dau(){
+        this.valor = 0;
     }
     
     public int getValor(){
         return this.valor;
     }
+    
     // escollir numero aleatori
     public void tirar(){
         long a = 0;
@@ -25,5 +21,5 @@ public class Dau {
         }
         
         this.valor = (int) a;
-    }
+    } 
 }
