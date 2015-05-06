@@ -6,12 +6,14 @@ public class Jugador {
     private Dau dau;
     private Fitxa fitxa;
     private Tauler tauler;
+    private int tornsSenseTirar;
 
     public Jugador(String nom, String color, Dau dau, Tauler tauler) {
         this.nom = nom;
         this.fitxa = new Fitxa(color, this, tauler.getCasella(1));
         this.dau = dau;
         this.tauler = tauler;
+        this.tornsSenseTirar = 0;
     }
     public String getNom(){
         return this.nom;

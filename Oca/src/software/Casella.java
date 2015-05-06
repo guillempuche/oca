@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Casella {
-    private int numero;
-    private String descripcio;
-    private List<Fitxa> fitxes;
+    protected int numero;
+    protected String descripcio;
+    protected List<Fitxa> fitxes;
 
     public Casella(int numero, String descripcio) {
         this.numero = numero;
         this.descripcio = descripcio;
-        this.fitxes = new ArrayList<Fitxa>(); //new Fitxa(fitxa.getColor(), fitxa.getJugador(), fitxa.getCasella());
+        this.fitxes = new ArrayList<Fitxa>();
     }
     
     public void situaFitxa(Fitxa fitxa){
@@ -25,6 +25,9 @@ public class Casella {
     }
     public int getNumero(){
         return this.numero;
+    }
+    public String getDescripcio(){
+        return this.descripcio;
     }
     
     
