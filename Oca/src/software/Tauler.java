@@ -22,13 +22,19 @@ public class Tauler {
             else if (i == 58)
                 caselles[i] = new Casella(i,"Mort");
             else 
-                caselles[i] = new Casella(i,"casella convencional");
-       
+                caselles[i] = new Casella(i,"Casella convencional");
     }
     public Casella getCasella(int numero){
         return caselles[numero];
     }
     public void situaFitxa(Fitxa fitxa, int numCasellaDesti){
+        /*if(numCasellaDesti == 5 || numCasellaDesti == 9 || 
+                numCasellaDesti == 14 || numCasellaDesti == 18 ||
+                numCasellaDesti == 23 || numCasellaDesti == 27 || 
+                numCasellaDesti == 32 || numCasellaDesti == 36 ||
+                numCasellaDesti == 41 || numCasellaDesti == 45 ||
+                numCasellaDesti == 50 || numCasellaDesti == 54 || 
+                numCasellaDesti == 59){*/
         this.caselles[numCasellaDesti].situaFitxa(fitxa);
     }
     public void eliminaFitxa(Fitxa fitxa, int numCasellaOrigen){

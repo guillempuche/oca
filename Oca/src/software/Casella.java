@@ -13,13 +13,6 @@ public class Casella {
         this.descripcio = descripcio;
         this.fitxes = new ArrayList<Fitxa>();
     }
-    
-    public void situaFitxa(Fitxa fitxa){
-        fitxes.add(fitxa);
-    }
-    public void eliminaFitxa(Fitxa fitxa){
-        fitxes.remove(fitxa);
-    }
     public Fitxa getFitxa(String color){
         return this.fitxes.get(fitxes.indexOf(color));
     }
@@ -29,6 +22,17 @@ public class Casella {
     public String getDescripcio(){
         return this.descripcio;
     }
-    
-    
+    public void situaFitxa(Fitxa fitxa){
+        fitxes.add(fitxa);
+    }
+    public void eliminaFitxa(Fitxa fitxa){
+        fitxes.remove(fitxa);
+    }
+    public boolean completaJugada(Jugador jugador,
+                     List<String> messages){
+        messages.add(this.descripcio);
+        return false;
+    }
+
+
 }

@@ -7,12 +7,13 @@ public class Mort extends Casella{
         super(numero, descripcio);
     }
     
+    @Override
     public boolean completaJugada(Jugador jugador,
                      List<String> messages){
         this.eliminaFitxa(jugador.getFitxa());
         jugador.getFitxa().getCasella().numero = 1;
         jugador.mouFitxa(1);
-        messages.add(descripcio);
+        messages.add(this.descripcio);
         return false;
     }
 }

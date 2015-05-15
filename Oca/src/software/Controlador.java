@@ -2,6 +2,7 @@ package software;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -12,7 +13,6 @@ public class Controlador {
     private Dau dau;
     private Tauler tauler;
     private Map<String,Jugador> jugadores;
-    private int torn;
     private Scanner lector = new Scanner(System.in);
     
     public Controlador(InterficieUsuari iu) {
@@ -22,17 +22,14 @@ public class Controlador {
         this.jugadores = new TreeMap<String, Jugador>();
         this.torn = 0;
     }
-
-    public int afegeixJugador(String nom, String color){        
+    public int afegeixJugador(String nom, String color) throws ColorFitxaExisteixException{        
         if (this.jugadores.containsKey(color) == true) 
             return -1;
         else {
             this.jugadores.put(color, new Jugador(nom, color, this.dau, this.tauler));
             return 0;
         }
-        
     }
-    
     // Si no hi ha cap jugador amb el color rebut, llavors retorna -1, i sino 0
     public int eliminaJugador(String color){
         if (this.jugadores.containsKey(color) == true){
@@ -41,60 +38,128 @@ public class Controlador {
         } else
             return -1;
     }
-    
-    public int jugarPartida(){
-        int numCasillaDesti;
+    public int jugarPartida() throws FaltenJugadorsException{
+        int torn = 1, numJugadorsJugatsTorn = 1, numCasellaDesti;
         boolean finalPartida = false;
+        List<String> msg = new List<String>();
         
-        // Comprovacio si hi ha 2 o menys jugadors
-        if (this.jugadores.size() <= 2)
-                return -1;
-        else
-        {
-            // Comprovacio s'ha inicialitzat partida
+        // Comprovacio si hi ha menys de 2 jugadors
+        if (this.jugadores.size() < 2){
+            //return -1;
+            throw new FaltenJugadorsException("No hi ha prous jugadors. Haurieu"
+                             + "de posar com a mínim dos jugadors");
+            
+        } else {
+            // Comprovacio que s'ha inicialitzat partida
             while (finalPartida == false){
-                this.torn++;
-
+                
                 Set<String> keySetColor = new HashSet<String>();
                 keySetColor = this.jugadores.keySet();
 
                 Iterator<String> it = keySetColor.iterator();
                 while(it.hasNext() && finalPartida == false){
                     String color = it.next();
-
-                    //Clicar ENTER per passar torn a l'altre jugador
-                    String text = llegirText("\n      -----------TIRAR DAU " + 
-                            this.jugadores.get(color).getNom() 
-                            + "-----------");
-                    String[] comanda = text.split(" ");
-                    if ("\n".equalsIgnoreCase(comanda[0])){
-                        System.out.println("");           
+                    
+                    // Sumar +1 a torn, si tots els jugadors ja han jugat en un torn
+                    if(numJugadorsJugatsTorn == this.jugadores.size()){
+                        // Inicialitzar a 1 numJugadorsJugatsTorn pel proxim torn
+                        numJugadorsJugatsTorn = 1;
+                        torn++;
+                    } else {
+                        // Afegir +1 a "numJugadorsJugatsTorn" perque un jugador ja ha tirat en el torn actual
+                        numJugadorsJugatsTorn++;
                     }
-                    // lectura finalitzada d'ENTER
 
-                    System.out.println("Torn número " + this.torn + ":\n\n" +
-                        "Juga el seu torn " + this.jugadores.get(color).getNom() +
-                        "\nControla la fitxa de color " + color + 
-                        "\nSituada a la casella " + this.jugadores.get(color).getFitxa().getCasella().getNumero() +
-                        " (Casella convencional)");
-
-                    this.jugadores.get(color).getDau().tirar();
-                    System.out.println("Valor del dau: " + this.jugadores.get(color).getDau().getValor());
-
-                    //Comprovar si s'ha arribat a la casella 63                 
-                    finalPartida = this.jugadores.get(color).jugarTorn();
-                    System.out.println("Casella destí " 
-                            + this.jugadores.get(color).getFitxa().getCasella().getNumero() +
-                            " (Casella convencional)");
+                    // Comprovar que el jugador no esta a la Preso. Si esta a Preso,
+                    // llavors no segueix en el codi de tirar dau ni moure fitxa
+                    /*if(this.jugadores.get(color).potTirar() == false){
+                        this.jugadores.get(color).decrementaTornsSenseTirar();
+                        this.iu.mostraPerPantalla("Juga el seu torn " + this.jugadores.get(color).getNom() +
+                                "\nControla la fitxa de color " + color + 
+                                "\nSituada a la casella " + this.jugadores.get(color).getFitxa().getCasella().getNumero() +
+                                " (" + this.jugadores.get(color).getFitxa().getCasella().getDescripcio() + ")" +
+                                "\nEl jugador té la fitxa empresonada i no pot tirar en aquest torn");
+                    } else {*/
+                        // Clicar tecla ENTER per passar torn a l'altre jugador
+                        String text = llegirText("\n      -----------TIRAR DAU " + 
+                                this.jugadores.get(color).getNom() 
+                                + "-----------");
+                        String[] comanda = text.split(" ");
+                        if ("\n".equalsIgnoreCase(comanda[0])){
+                            this.iu.mostraPerPantalla("");           
+                        }
+                        // Lectura finalitzada de la tecla ENTER
+                        
+                        if(numJugadorsJugatsTorn == this.jugadores.size())
+                            this.iu.mostraPerPantalla("Torn número " + torn + ":\n");
+                          
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        this.iu.mostraPerPantalla("Juga el seu torn " + this.jugadores.get(color).getNom() +
+                            "\nControla la fitxa de color " + color + 
+                            "\nSituada a la casella " + this.jugadores.get(color).getFitxa().getCasella().getNumero() +
+                            " (" + this.jugadores.get(color).getFitxa().getCasella().getDescripcio() + ")");
+                        
+                        // Comprovar que el jugador no esta en la Preso
+                        if(this.jugadores.get(color).potTirar() == true){
+                            // Es llanca el dau
+                            this.jugadores.get(color).getDau().tirar();
+                            this.iu.mostraPerPantalla("Valor del dau: " + this.jugadores.get(color).getDau().getValor());
+                        }
+                        
+                        // Comprovar si s'ha arribat a la casella 63                 
+                        finalPartida = this.jugadores.get(color).jugarTorn();
+                        
+                        numCasellaDesti = this.jugadores.get(color).getFitxa().getCasella().getNumero();
+                        
+                        this.iu.mostraPerPantalla("Casella destí " + numCasellaDesti +
+                                " (" + this.jugadores.get(color).getFitxa().getCasella().getDescripcio() + ")");
+                        
+                        this.jugadores.get(color).getFitxa().getCasella().completaJugada(this.jugadores.get(color), msg)
+                        
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                        // Comprovar si casella desti esta a Oca, Mort o Preso
+                        if(numCasellaDesti == 5 || numCasellaDesti == 9 || 
+                                numCasellaDesti == 14 || numCasellaDesti == 18 ||
+                                numCasellaDesti == 23 || numCasellaDesti == 27 || 
+                                numCasellaDesti == 32 || numCasellaDesti == 36 ||
+                                numCasellaDesti == 41 || numCasellaDesti == 45 ||
+                                numCasellaDesti == 50 || numCasellaDesti == 54 || 
+                                numCasellaDesti == 59){
+                            this.tauler.getCasella(numCasellaDesti).completaJugada(this.jugadores.get(color), messages)
+                            
+                        }
+                    //} 
+                        
+                        
+                        
+                        
+                        
+                        
                 }
             }
-            //Sentencia quan GUANYA JUGADOR
-            System.out.println("\n\nHa guanyat la partida!!!!");
+            // Sentencia quan GUANYA un jugador
+            this.iu.mostraPerPantalla("\n\nHa guanyat la partida!!!!");
             
             return 0;
         }
     }
-    
+    public void presentaMensajes(List<String> messages){
+        this.
+    }
+    // Aprofitat d'una practica de laboratori. Comprovacio que s'hagi introduit text
     private String llegirText(String msg) {
         String text = null;
         while (text == null) {

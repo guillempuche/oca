@@ -1,32 +1,27 @@
 //          Projecte de l'oca fet per Guillem Puche i Daniel Seijas
-
 package software;
+
 import java.util.Scanner;
 
 public class InterficieUsuari {
 
     private Controlador controlador;
     private Scanner lector = new Scanner(System.in);
-    
-    public InterficieUsuari(){
-        this.controlador = new Controlador(this);  
+
+    public InterficieUsuari() {
+        this.controlador = new Controlador(this);
     }
 
     public static void main(String args[]) {
         InterficieUsuari programa = new InterficieUsuari();
-        programa.start();
+        programa.run();
     }
 
-    public void start() {
+    public void run() {
         boolean executar = true;
-        
-        System.out.println("            Benvinguts a l'aplicació del joc de la oca de MOO!\n"
-                + "Introdueix una de les comandes de la llista:\n"
-                + "alta -> Afegeix un nou jugador a la partida\n"
-                + "elimina -> Elimina un dels jugadors afegits prèviament a la partida\n"
-                + "inicia -> Inicia la partida amb els jugadors introduïts\n"
-                + "ajuda -> Mostra novament les comandes vàlides per a l'aplicació\n"
-                + "surt -> Surt del joc de la oca");
+
+        System.out.println("            Benvinguts a l'aplicació del joc de la oca de MOO!\n");
+        this.mostraComandes();
 
         while (executar) {
             String text = llegirText("\n    #> ");
@@ -34,49 +29,33 @@ public class InterficieUsuari {
             switch (comanda.length) {
                 case 1:
                     if ("alta".equalsIgnoreCase(comanda[0])) {
-                        String nom = llegirText("Nom del jugador:\n");
-                        String color = llegirText("Color de fitxa:\n");
-                        if(controlador.afegeixJugador(nom, color) == -1)
-                            System.out.println("Ja hi ha un altre jugador "
-                                    + "controlant una fitxa d'aquest color");
-                        else
-                            System.out.println("Jugador afegit correctament");
-
+                        this.altaJugador();
                     } else if ("elimina".equalsIgnoreCase(comanda[0])) {
-                        String color = llegirText("Color de fitxa:\n");
-                        if(controlador.eliminaJugador(color) == -1)
-                            System.out.println("No hi ha cap jugador controlant "
-                                    + "una fitxa d'aquest color");
-                        else System.out.println("Jugador eliminat correctament.");
-                        
+                        this.eliminaJugador();
                     } else if ("inicia".equalsIgnoreCase(comanda[0])) {
-                        int estatPartida = this.controlador.jugarPartida();
-                        
-                        if( estatPartida == -1)
-                            System.out.println("No hi ha prous jugadors. Recomenem"
-                             + "que poseu més de dos jugadors");                        
-                     
+                        try {
+                            this.iniciarPartida();
+                        } catch (FaltenJugadorsException ex) {
+                            System.out.print(ex.getMessage());
+                        }
                     } else if ("ajuda".equalsIgnoreCase(comanda[0])) {
-                        System.out.println("Introdueix una de les comandes de la llista:\n"
-                            + "alta -> Afegeix un nou jugador a la partida\n"
-                            + "elimina -> Elimina un dels jugadors afegits prèviament a la partida\n"
-                            + "inicia -> Inicia la partida amb els jugadors introduïts\n"
-                            + "ajuda -> Mostra novament les comandes vàlides per a l'aplicació\n"
-                            + "surt -> Surt del joc de la oca");
-                        
+                        this.mostraComandes();
                     } else if ("surt".equalsIgnoreCase(comanda[0])) {
                         System.out.println("Sortint del joc de la oca...");
                         executar = false;
-                        
-                    } else                        
+                    } else {
                         System.out.println("Comanda incorrecta.");
-                        
+                    }
+
                     break;
             }
         }
-        System.out.println("Programa finalitzat");
+        System.out.println ("Programa finalitzat");
     }
 
+    
+
+        // Aprofitat d'una practica de laboratori. Comprovacio que s'hagi introduit text.
     private String llegirText(String msg) {
         String text = null;
         while (text == null) {
@@ -89,5 +68,47 @@ public class InterficieUsuari {
             }
         }
         return text;
+    }
+
+    public void eliminaJugador() throws ColorFitxaNoExisteixException {
+        String color = llegirText("Color de fitxa:\n");
+        if (controlador.eliminaJugador(color) == -1) {
+            throwSystem.out.println("No hi ha cap jugador controlant "
+                    + "una fitxa d'aquest color");
+        } else {
+            System.out.println("Jugador eliminat correctament.");
+        }
+    }
+
+    public void iniciarPartida() throws FaltenJugadorsException {
+        int jugadorsMinims = this.controlador.jugarPartida();
+        
+        if (jugadorsMinims == -1) {
+            throw new FaltenJugadorsException("No hi ha prous jugadors. Hauireu"
+                    + "de posar com a mínim dos jugadors");
+        }
+    }
+
+    public void mostraComandes() {
+        System.out.println("Introdueix una de les comandes de la llista:\n"
+                + "alta -> Afegeix un nou jugador a la partida\n"
+                + "elimina -> Elimina un dels jugadors afegits prèviament a la partida\n"
+                + "inicia -> Inicia la partida amb els jugadors introduïts\n"
+                + "ajuda -> Mostra novament les comandes vàlides per a l'aplicació\n"
+                + "surt -> Surt del joc de la oca");
+    }
+
+    public void altaJugador() throws ColorFitxaExisteixException {
+        String nom = llegirText("Nom del jugador:\n");
+        String color = llegirText("Color de fitxa:\n");
+        if (controlador.afegeixJugador(nom, color) == -1) {
+            System.out.println("Ja hi ha un altre jugador "
+                    + "controlant una fitxa d'aquest color");
+        } else {
+            System.out.println("Jugador afegit correctament");
+        }
+    }
+    public void mostraPerPantalla(String msg){
+        System.out.print(msg);
     }
 }
