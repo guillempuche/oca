@@ -29,14 +29,22 @@ public class InterficieUsuari {
             switch (comanda.length) {
                 case 1:
                     if ("alta".equalsIgnoreCase(comanda[0])) {
-                        this.altaJugador();
+                        try{
+                            this.altaJugador();
+                        } catch (ColorFitxaExisteixException ex){
+                            System.err.println(ex.getMessage() + "\n");
+                        }
                     } else if ("elimina".equalsIgnoreCase(comanda[0])) {
-                        this.eliminaJugador();
+                        try{
+                            this.eliminaJugador();
+                        } catch (ColorFitxaNoExisteixException ex){
+                            System.err.println(ex.getMessage() + "\n");
+                        }
                     } else if ("inicia".equalsIgnoreCase(comanda[0])) {
                         try {
                             this.iniciarPartida();
                         } catch (FaltenJugadorsException ex) {
-                            System.out.print(ex.getMessage());
+                            System.out.print(ex.getMessage()  + "\n");
                         }
                     } else if ("ajuda".equalsIgnoreCase(comanda[0])) {
                         this.mostraComandes();
@@ -73,7 +81,7 @@ public class InterficieUsuari {
     public void eliminaJugador() throws ColorFitxaNoExisteixException {
         String color = llegirText("Color de fitxa:\n");
         if (controlador.eliminaJugador(color) == -1) {
-            throwSystem.out.println("No hi ha cap jugador controlant "
+            throw new ColorFitxaNoExisteixException("No hi ha cap jugador controlant "
                     + "una fitxa d'aquest color");
         } else {
             System.out.println("Jugador eliminat correctament.");
@@ -108,6 +116,7 @@ public class InterficieUsuari {
             System.out.println("Jugador afegit correctament");
         }
     }
+    
     public void mostraPerPantalla(String msg){
         System.out.print(msg);
     }

@@ -14,13 +14,13 @@ public class Tauler {
             if(i == 5 || i == 9 || i == 14 || i == 18 || i == 23 ||
                 i == 27 || i == 32 || i == 36 || i == 41 || i == 45 ||
                 i == 50 || i == 54 || i == 59){                  
-                caselles[i] = new Casella(i,"Oca");
+                caselles[i] = new Oca(i,"Oca");
                 this.ocas.add(caselles[i]);
             }
             else if (i == 52)
-                caselles[i] = new Casella(i,"Presó");
+                caselles[i] = new Preso(i,"Presó");
             else if (i == 58)
-                caselles[i] = new Casella(i,"Mort");
+                caselles[i] = new Mort(i,"Mort");
             else 
                 caselles[i] = new Casella(i,"Casella convencional");
     }
