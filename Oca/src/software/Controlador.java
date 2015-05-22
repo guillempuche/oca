@@ -1,5 +1,6 @@
 package software;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -20,11 +21,11 @@ public class Controlador {
         this.dau = new Dau();
         this.tauler = new Tauler();
         this.jugadores = new TreeMap<String, Jugador>();
-        this.torn = 0;
     }
     public int afegeixJugador(String nom, String color) throws ColorFitxaExisteixException{        
         if (this.jugadores.containsKey(color) == true) 
-            return -1;
+            //return -1;
+            throw new ColorFitxaExisteixException("Ja hi ha un jugador amb el color "  + color );
         else {
             this.jugadores.put(color, new Jugador(nom, color, this.dau, this.tauler));
             return 0;
@@ -41,7 +42,7 @@ public class Controlador {
     public int jugarPartida() throws FaltenJugadorsException{
         int torn = 1, numJugadorsJugatsTorn = 1, numCasellaDesti;
         boolean finalPartida = false;
-        List<String> msg = new List<String>();
+        List<String> msg = new ArrayList<String>();
         
         // Comprovacio si hi ha menys de 2 jugadors
         if (this.jugadores.size() < 2){
@@ -59,7 +60,7 @@ public class Controlador {
                 Iterator<String> it = keySetColor.iterator();
                 while(it.hasNext() && finalPartida == false){
                     String color = it.next();
-                    
+
                     // Sumar +1 a torn, si tots els jugadors ja han jugat en un torn
                     if(numJugadorsJugatsTorn == this.jugadores.size()){
                         // Inicialitzar a 1 numJugadorsJugatsTorn pel proxim torn
@@ -106,32 +107,36 @@ public class Controlador {
                             "\nSituada a la casella " + this.jugadores.get(color).getFitxa().getCasella().getNumero() +
                             " (" + this.jugadores.get(color).getFitxa().getCasella().getDescripcio() + ")");
                         
-                        // Comprovar que el jugador no esta en la Preso
+                        // Comprovar que el jugador no esta en la Preso. Si pot --> tira dau
                         if(this.jugadores.get(color).potTirar() == true){
                             // Es llanca el dau
                             this.jugadores.get(color).getDau().tirar();
                             this.iu.mostraPerPantalla("Valor del dau: " + this.jugadores.get(color).getDau().getValor());
                         }
                         
-                        // Comprovar si s'ha arribat a la casella 63                 
+                        
+                        // Comprovar TRUE o FALSE si s'ha arribat a la casella 63                 
                         finalPartida = this.jugadores.get(color).jugarTorn();
                         
                         numCasellaDesti = this.jugadores.get(color).getFitxa().getCasella().getNumero();
                         
-                        this.iu.mostraPerPantalla("Casella destí " + numCasellaDesti +
-                                " (" + this.jugadores.get(color).getFitxa().getCasella().getDescripcio() + ")");
+                        if(this.jugadores.get(color).potTirar() == true){
+                            // Comprovar si ha casella 63 des d'Oca
+                            if (this.jugadores.get(color).getFitxa().getCasella().completaJugada(this.jugadores.get(color), msg) == true)
+                                finalPartida = true;
+                        }
                         
-                        this.jugadores.get(color).getFitxa().getCasella().completaJugada(this.jugadores.get(color), msg)
+                        // Esscriure per pantalla
+                        this.presentaMensajes(msg);
+                        // Netejar llista en cada completaJugada()
+                        msg.clear();
                         
-                                
-                                
-                                
-                                
+                       
                                 
                                 
                                 
                         // Comprovar si casella desti esta a Oca, Mort o Preso
-                        if(numCasellaDesti == 5 || numCasellaDesti == 9 || 
+                       /* if(numCasellaDesti == 5 || numCasellaDesti == 9 || 
                                 numCasellaDesti == 14 || numCasellaDesti == 18 ||
                                 numCasellaDesti == 23 || numCasellaDesti == 27 || 
                                 numCasellaDesti == 32 || numCasellaDesti == 36 ||
@@ -140,24 +145,19 @@ public class Controlador {
                                 numCasellaDesti == 59){
                             this.tauler.getCasella(numCasellaDesti).completaJugada(this.jugadores.get(color), messages)
                             
-                        }
+                        }*/
                     //} 
                         
-                        
-                        
-                        
-                        
-                        
+                                              
                 }
             }
             // Sentencia quan GUANYA un jugador
             this.iu.mostraPerPantalla("\n\nHa guanyat la partida!!!!");
-            
             return 0;
         }
     }
     public void presentaMensajes(List<String> messages){
-        this.
+        this.iu.mostraPerPantalla(messages.get(0));
     }
     // Aprofitat d'una practica de laboratori. Comprovacio que s'hagi introduit text
     private String llegirText(String msg) {
