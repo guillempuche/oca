@@ -9,8 +9,9 @@ public class Oca extends Casella{
     @Override
     public boolean completaJugada(Jugador jugador,
                      List<String> messages){
-        messages.add("D'Oca a oca i tiro perquè em toca!");
-        
+        //messages.add("Casella destí " + this.numero + "(" + this.descripcio + ")" +
+        //        "\nD'Oca a oca i tiro perquè em toca!");
+        int numCasellaAbansMoure=jugador.getFitxa().getCasella().numero;
         this.eliminaFitxa(jugador.getFitxa());
         if (jugador.getFitxa().getCasella().numero == 5 || 
                 jugador.getFitxa().getCasella().numero == 14 ||
@@ -23,6 +24,10 @@ public class Oca extends Casella{
         else 
             jugador.mouFitxa(jugador.getFitxa().getCasella().numero + 5);   
         
+        int numCasellaDespresMoure=jugador.getFitxa().getCasella().numero;
+         messages.add("Casella destí " + numCasellaAbansMoure + " (" + this.descripcio + ")" +
+                "\nD'Oca a oca i tiro perquè em toca!\nCasella destí " + numCasellaDespresMoure 
+         + " (" + this.descripcio + ")");
         // Si despres de tirar, el jugador situa fitxa a la casella 63 (ultima Oca)
         // s'acaba el torn
         if (jugador.getFitxa().getCasella().numero == 63)

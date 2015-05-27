@@ -30,7 +30,7 @@ public class Casella {
     }
     public boolean completaJugada(Jugador jugador,
                      List<String> messages){
-        messages.add("Casella destí " + this.numero + "(" + this.descripcio + ")");
+        messages.add("Casella destí " + this.numero + " (" + this.descripcio + ")");
         return false;
     }
 

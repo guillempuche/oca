@@ -22,7 +22,6 @@ public class InterficieUsuari {
 
         System.out.println("            Benvinguts a l'aplicació del joc de la oca de MOO!\n");
         this.mostraComandes();
-
         while (executar) {
             String text = llegirText("\n    #> ");
             String[] comanda = text.split(" ");
@@ -44,7 +43,7 @@ public class InterficieUsuari {
                         try {
                             this.iniciarPartida();
                         } catch (FaltenJugadorsException ex) {
-                            System.out.print(ex.getMessage()  + "\n");
+                            System.err.print(ex.getMessage()  + "\n");
                         }
                     } else if ("ajuda".equalsIgnoreCase(comanda[0])) {
                         this.mostraComandes();
@@ -77,44 +76,41 @@ public class InterficieUsuari {
         }
         return text;
     }
-
+    
+    public void altaJugador() throws ColorFitxaExisteixException {
+        String nom = llegirText("Nom del jugador:\n");
+        String color = llegirText("Color de fitxa:\n");
+        if (controlador.afegeixJugador(nom, color) == 0) {
+            System.out.println("Jugador afegit correctament");
+        }
+    }
+    
     public void eliminaJugador() throws ColorFitxaNoExisteixException {
         String color = llegirText("Color de fitxa:\n");
-        if (controlador.eliminaJugador(color) == -1) {
+        if (controlador.eliminaJugador(color) == 0){/*-1) {
             throw new ColorFitxaNoExisteixException("No hi ha cap jugador controlant "
-                    + "una fitxa d'aquest color");
-        } else {
+                    + "una fitxa d'aquest color");*/
+        //} else {
             System.out.println("Jugador eliminat correctament.");
         }
     }
 
-    public void iniciarPartida() throws FaltenJugadorsException {
+    public void iniciarPartida() throws FaltenJugadorsException{
         int jugadorsMinims = this.controlador.jugarPartida();
         
-        if (jugadorsMinims == -1) {
+        if (jugadorsMinims == -1){
             throw new FaltenJugadorsException("No hi ha prous jugadors. Hauireu"
                     + "de posar com a mínim dos jugadors");
         }
     }
 
-    public void mostraComandes() {
+    public void mostraComandes(){
         System.out.println("Introdueix una de les comandes de la llista:\n"
                 + "alta -> Afegeix un nou jugador a la partida\n"
                 + "elimina -> Elimina un dels jugadors afegits prèviament a la partida\n"
                 + "inicia -> Inicia la partida amb els jugadors introduïts\n"
                 + "ajuda -> Mostra novament les comandes vàlides per a l'aplicació\n"
                 + "surt -> Surt del joc de la oca");
-    }
-
-    public void altaJugador() throws ColorFitxaExisteixException {
-        String nom = llegirText("Nom del jugador:\n");
-        String color = llegirText("Color de fitxa:\n");
-        if (controlador.afegeixJugador(nom, color) == -1) {
-            System.out.println("Ja hi ha un altre jugador "
-                    + "controlant una fitxa d'aquest color");
-        } else {
-            System.out.println("Jugador afegit correctament");
-        }
     }
     
     public void mostraPerPantalla(String msg){
