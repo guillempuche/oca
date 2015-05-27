@@ -42,7 +42,7 @@ public class Controlador {
     public int jugarPartida() throws FaltenJugadorsException{
         int torn = 1, numJugadorsJugatsTorn = 1, numCasellaDesti;
         boolean finalPartida = false, casellaOca = false;
-        String color = "a";
+        String color = ""; // inicia color per a què color valor
         List<String> msg = new ArrayList<String>();
         
         // Inicialitzar fitxes a la poscio 1 del tauler si usuari torna a iniciar partida
@@ -90,9 +90,9 @@ public class Controlador {
                         // Clicar tecla ENTER per passar torn a l'altre jugador
                        
                                 
-                                String text = llegirText("\n      -----------TIRAR DAU " + 
+                                String text = llegirText("\n      ----------- TIRA EL DAU " + 
                                 this.jugadores.get(color).getNom() 
-                                + "-----------");
+                                + " -----------");
                         String[] comanda = text.split(" ");
                         if ("\n".equalsIgnoreCase(comanda[0])){
                             this.iu.mostraPerPantalla("");           
@@ -113,7 +113,7 @@ public class Controlador {
                         if(this.jugadores.get(color).potTirar() == true){
                             // Es llanca el dau
                             this.jugadores.get(color).getDau().tirar();
-                            this.iu.mostraPerPantalla("\nValor del dau: " + this.jugadores.get(color).getDau().getValor() + "\n");
+                            this.iu.mostraPerPantalla("\nValor del dau " + this.jugadores.get(color).getDau().getValor() + "\n");
                         }
                         
                         // Comprova que pot tirar, es a dir, no esta a Preso
