@@ -1,7 +1,6 @@
 package software;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,7 @@ public class Controlador {
     }
     public int afegeixJugador(String nom, String color) throws ColorFitxaExisteixException{        
         if (this.jugadores.containsKey(color) == true) 
-            throw new ColorFitxaExisteixException("Ja hi ha un jugador amb el color "  + color );
+            throw new ColorFitxaExisteixException("ja hi ha un jugador amb el color "  + color );
         else {
             this.jugadores.put(color, new Jugador(nom, color, this.dau, this.tauler));
             return 0;
@@ -36,13 +35,13 @@ public class Controlador {
             this.jugadores.remove(color);
             return 0;
         } else
-            throw new ColorFitxaNoExisteixException("No hi ha cap jugador controlant " +
+            throw new ColorFitxaNoExisteixException("no hi ha cap jugador controlant " +
                     "una fitxa d'aquest color");
     }
     public int jugarPartida() throws FaltenJugadorsException{
-        int torn = 1, numJugadorsJugatsTorn = 1, numCasellaDesti;
+        int torn = 1, numJugadorsJugatsTorn = 0, numCasellaDesti;
         boolean finalPartida = false, casellaOca = false;
-        String color = ""; // inicia color per a què color valor
+        String color = ""; // iniciar color per a què color valor
         List<String> msg = new ArrayList<String>();
         
         // Inicialitzar fitxes a la poscio 1 del tauler si usuari torna a iniciar partida
@@ -57,7 +56,7 @@ public class Controlador {
         // Comprovacio si hi ha menys de 2 jugadors
         if (this.jugadores.size() < 2){
             //return -1;
-            throw new FaltenJugadorsException("No hi ha prous jugadors. Haurieu"
+            throw new FaltenJugadorsException("no hi ha prous jugadors. Haurieu"
                              + " de posar com a mínim dos jugadors");
             
         } else {
@@ -83,20 +82,17 @@ public class Controlador {
                             numJugadorsJugatsTorn++;
                         }
                     }
-                        
-                    if(numJugadorsJugatsTorn == this.jugadores.size() && casellaOca == false)
+                       
+                    if(numJugadorsJugatsTorn == 1 && casellaOca == false)
                         this.iu.mostraPerPantalla("\n\nTorn número " + torn + ":");
-
+                        
                     // Clicar tecla ENTER per passar torn a l'altre jugador
-
-
-                            String text = llegirText("\n      ----------- TIRA EL DAU " + 
-                            this.jugadores.get(color).getNom() 
-                            + " -----------");
+                    String text = llegirText("\n      ----------- TIRA EL DAU " + 
+                        this.jugadores.get(color).getNom() 
+                        + " -----------");
                     String[] comanda = text.split(" ");
-                    if ("\n".equalsIgnoreCase(comanda[0])){
+                    if ("\n".equalsIgnoreCase(comanda[0]))
                         this.iu.mostraPerPantalla("");           
-                    }
                     // Lectura finalitzada de la tecla ENTER
 
                     this.iu.mostraPerPantalla("Juga el seu torn " + this.jugadores.get(color).getNom() +

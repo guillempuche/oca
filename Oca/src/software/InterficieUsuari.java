@@ -53,7 +53,7 @@ public class InterficieUsuari {
                         try {
                             this.iniciarPartida();
                         } catch (FaltenJugadorsException ex) {
-                            System.err.print(ex.getMessage()  + "\n");
+                            System.err.println(ex.getMessage()  + "\n");
                         }
                     } else if ("ajuda".equalsIgnoreCase(comanda[0])) {
                         this.mostraComandes();
@@ -95,19 +95,15 @@ public class InterficieUsuari {
     
     public void eliminaJugador() throws ColorFitxaNoExisteixException {
         String color = llegirText("Color de fitxa:\n");
-        if (controlador.eliminaJugador(color) == 0){/*-1) {
-            throw new ColorFitxaNoExisteixException("No hi ha cap jugador controlant "
-                    + "una fitxa d'aquest color");*/
-        //} else {
-            System.out.println("Jugador eliminat correctament.");
-        }
+        if (controlador.eliminaJugador(color) == 0)
+            System.out.println("Jugador eliminat correctament");
     }
 
     public void iniciarPartida() throws FaltenJugadorsException{
         int jugadorsMinims = this.controlador.jugarPartida();
         
         if (jugadorsMinims == -1){
-            throw new FaltenJugadorsException("No hi ha prous jugadors. Hauireu"
+            throw new FaltenJugadorsException("no hi ha prous jugadors. Hauireu"
                     + "de posar com a mínim dos jugadors");
         }
     }
