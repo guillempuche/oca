@@ -28,13 +28,6 @@ public class Tauler {
         return caselles[numero];
     }
     public void situaFitxa(Fitxa fitxa, int numCasellaDesti){
-        /*if(numCasellaDesti == 5 || numCasellaDesti == 9 || 
-                numCasellaDesti == 14 || numCasellaDesti == 18 ||
-                numCasellaDesti == 23 || numCasellaDesti == 27 || 
-                numCasellaDesti == 32 || numCasellaDesti == 36 ||
-                numCasellaDesti == 41 || numCasellaDesti == 45 ||
-                numCasellaDesti == 50 || numCasellaDesti == 54 || 
-                numCasellaDesti == 59){*/
         this.caselles[numCasellaDesti].situaFitxa(fitxa);
     }
     public void eliminaFitxa(Fitxa fitxa, int numCasellaOrigen){

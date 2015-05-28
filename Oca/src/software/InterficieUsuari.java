@@ -60,9 +60,7 @@ public class InterficieUsuari {
         System.out.println ("Programa finalitzat");
     }
 
-    
-
-        // Aprofitat d'una practica de laboratori. Comprovacio que s'hagi introduit text.
+    // Aprofitat d'una practica de laboratori. Comprovacio que s'hagi introduit text.
     private String llegirText(String msg) {
         String text = null;
         while (text == null) {

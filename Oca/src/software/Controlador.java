@@ -84,84 +84,60 @@ public class Controlador {
                         }
                     }
                         
-                        if(numJugadorsJugatsTorn == this.jugadores.size() && casellaOca == false)
-                            this.iu.mostraPerPantalla("\n\nTorn número " + torn + ":");
+                    if(numJugadorsJugatsTorn == this.jugadores.size() && casellaOca == false)
+                        this.iu.mostraPerPantalla("\n\nTorn número " + torn + ":");
 
-                        // Clicar tecla ENTER per passar torn a l'altre jugador
-                       
-                                
-                                String text = llegirText("\n      ----------- TIRA EL DAU " + 
-                                this.jugadores.get(color).getNom() 
-                                + " -----------");
-                        String[] comanda = text.split(" ");
-                        if ("\n".equalsIgnoreCase(comanda[0])){
-                            this.iu.mostraPerPantalla("");           
-                        }
-                        // Lectura finalitzada de la tecla ENTER
-                        
-                        
-                      
-                        
-                        
-                        
-                        this.iu.mostraPerPantalla("Juga el seu torn " + this.jugadores.get(color).getNom() +
-                            "\nControla la fitxa de color " + color + 
-                            "\nSituada a la casella " + this.jugadores.get(color).getFitxa().getCasella().getNumero() +
-                            " (" + this.jugadores.get(color).getFitxa().getCasella().getDescripcio() + ")");
-                        
-                        // Comprovar que el jugador no esta en la Preso. Si pot --> tira dau
-                        if(this.jugadores.get(color).potTirar() == true){
-                            // Es llanca el dau
-                            this.jugadores.get(color).getDau().tirar();
-                            this.iu.mostraPerPantalla("\nValor del dau " + this.jugadores.get(color).getDau().getValor() + "\n");
-                        }
-                        
-                        // Comprova que pot tirar, es a dir, no esta a Preso
-                        if(this.jugadores.get(color).potTirar() == true){
-                            // Comprovar TRUE o FALSE si s'ha arribat a la casella 63                 
-                            finalPartida = this.jugadores.get(color).jugarTorn();
+                    // Clicar tecla ENTER per passar torn a l'altre jugador
 
-                            numCasellaDesti = this.jugadores.get(color).getFitxa().getCasella().getNumero();
-                   
-                            // Comprovar si ha casella 63 des d'Oca
-                            if (this.jugadores.get(color).getFitxa().getCasella().completaJugada(this.jugadores.get(color), msg) == true)
-                                finalPartida = true;
-                        } else { // si la fitxa esta a Preso  
-                            this.jugadores.get(color).decrementaTornsSenseTirar();
-                            
-                            //Afegim element a la llista de 'msg' l'informacio sobre la Preso
-                            msg.add("\nEl jugador té la fitxa empresonada i no pot tirar en aquest torn");
-                        }
-                        
-                        //Comprovar que la fitxa ha caigut a Oca
-                        if(this.jugadores.get(color).getFitxa().getCasella().getDescripcio() == "Oca")
-                            casellaOca = true;
-                        else
-                            casellaOca = false;
-                        
-                        // Esscriure per pantalla
-                        this.presentaMensajes(msg);
-                        // Netejar llista en cada completaJugada()
-                        msg.clear();
-                        
-                       
-                                
-                                
-                                
-                        // Comprovar si casella desti esta a Oca, Mort o Preso
-                       /* if(numCasellaDesti == 5 || numCasellaDesti == 9 || 
-                                numCasellaDesti == 14 || numCasellaDesti == 18 ||
-                                numCasellaDesti == 23 || numCasellaDesti == 27 || 
-                                numCasellaDesti == 32 || numCasellaDesti == 36 ||
-                                numCasellaDesti == 41 || numCasellaDesti == 45 ||
-                                numCasellaDesti == 50 || numCasellaDesti == 54 || 
-                                numCasellaDesti == 59){
-                            this.tauler.getCasella(numCasellaDesti).completaJugada(this.jugadores.get(color), messages)
-                            
-                        }*/
-                    //} 
-                        
-                                              
+
+                            String text = llegirText("\n      ----------- TIRA EL DAU " + 
+                            this.jugadores.get(color).getNom() 
+                            + " -----------");
+                    String[] comanda = text.split(" ");
+                    if ("\n".equalsIgnoreCase(comanda[0])){
+                        this.iu.mostraPerPantalla("");           
+                    }
+                    // Lectura finalitzada de la tecla ENTER
+
+                    this.iu.mostraPerPantalla("Juga el seu torn " + this.jugadores.get(color).getNom() +
+                        "\nControla la fitxa de color " + color + 
+                        "\nSituada a la casella " + this.jugadores.get(color).getFitxa().getCasella().getNumero() +
+                        " (" + this.jugadores.get(color).getFitxa().getCasella().getDescripcio() + ")");
+
+                    // Comprovar que el jugador no esta en la Preso. Si pot --> tira dau
+                    if(this.jugadores.get(color).potTirar() == true){
+                        // Es llanca el dau
+                        this.jugadores.get(color).getDau().tirar();
+                        this.iu.mostraPerPantalla("\nValor del dau " + this.jugadores.get(color).getDau().getValor() + "\n");
+                    }
+
+                    // Comprova que pot tirar, es a dir, no esta a Preso
+                    if(this.jugadores.get(color).potTirar() == true){
+                        // Comprovar TRUE o FALSE si s'ha arribat a la casella 63                 
+                        finalPartida = this.jugadores.get(color).jugarTorn();
+
+                        numCasellaDesti = this.jugadores.get(color).getFitxa().getCasella().getNumero();
+
+                        // Comprovar si ha casella 63 des d'Oca
+                        if (this.jugadores.get(color).getFitxa().getCasella().completaJugada(this.jugadores.get(color), msg) == true)
+                            finalPartida = true;
+                    } else { // si la fitxa esta a Preso  
+                        this.jugadores.get(color).decrementaTornsSenseTirar();
+
+                        //Afegim element a la llista de 'msg' l'informacio sobre la Preso
+                        msg.add("\nEl jugador té la fitxa empresonada i no pot tirar en aquest torn");
+                    }
+
+                    //Comprovar que la fitxa ha caigut a Oca
+                    if(this.jugadores.get(color).getFitxa().getCasella().getDescripcio() == "Oca")
+                        casellaOca = true;
+                    else
+                        casellaOca = false;
+
+                    // Esscriure per pantalla
+                    this.presentaMensajes(msg);
+                    // Netejar llista en cada completaJugada()
+                    msg.clear();
                 }
             }
             // Sentencia quan GUANYA un jugador
